@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Carousel from '../../Assets/carousel.png';
+import Carousel from '../../Assets/carousel.svg';
 import './styles.css';
 
 export default function Networks({ }) {

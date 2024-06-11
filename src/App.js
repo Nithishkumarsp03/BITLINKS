@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
-import Profile from './Components/Home/profile';
+// import Profile from './Components/Home/profile';
 // import Flowchart from './Components/Flowchart/flowchart';
 
 export default function App() {
@@ -14,7 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/bitlinks" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
+        {/* <Route path="/profile" element={<Profile />} /> */}
         {/* <Route path="/flowchart" element={<Flowchart />} /> */}
       </Routes>
     </GoogleOAuthProvider>

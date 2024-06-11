@@ -13,7 +13,6 @@ import Networks from "../Connections/Networks";
 import Myschedule from "../Connections/Myschedule";
 import ScheduleNetwork from "../Connections/ScheduleNetwork";
 import Flowchart from "../Flowchart/flowchart";
-import Call from "../History/Call";
 import { useLocation } from "react-router-dom";
 import { Dialog } from '@mui/material';
 
