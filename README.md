@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -72,3 +73,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 =======
 # BITLINKS
 >>>>>>> 3d320148f417ee042ce916df1243c87031b72ebb
+=======
+# BITLINKS
+This is a Linkedin for the community. Colleges, schools or some business people can keep track of audience through this platform
+>>>>>>> 7c02666c4ae594ff1651d7a39d219744c5fae57d
