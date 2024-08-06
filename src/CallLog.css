@@ -1,0 +1,38 @@
+.call-log {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .call-log-icon {
+    font-size: 24px;
+    margin-right: 10px;
+  }
+  
+  .call-log-details {
+    flex-grow: 1;
+  }
+  
+  .call-log-date {
+    font-weight: bold;
+  }
+  
+  .call-log-message {
+    margin: 5px 0;
+  }
+  
+  .call-log-user {
+    color: grey;
+  }
+  
+  .missed-call {
+    background-color: #ffe6e6;
+  }
+  
+  .received-call {
+    background-color: #e6f7ff;
+  }
+  

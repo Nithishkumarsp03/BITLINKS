@@ -1,0 +1,149 @@
+.right{
+  height: 590px;
+  margin-top: 20px;
+  margin-left: 100px;
+  margin-right: 20px;
+  width: 100%;
+}
+.flowchart{
+  background-color: #FEFEFF;
+  border-radius: 4px;
+  width: 100%;
+  height: 280px;
+  margin-top: -35px;
+}
+.profilepic{
+  width: 40px;
+  border-radius: 50px;
+}
+.tree_cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: auto;
+    margin-left: 1%;
+    margin-top: 4%;
+  }
+  .per{
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 30px;
+  }
+  
+  .tree {
+    width: 50%;
+    margin: 0 auto;
+    text-align: left;
+  }
+  
+  .tree ul {
+    padding-top: 5px; 
+    position: relative;
+    transition: all 0.5s;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .tree li {
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 9px 5px 0 2px; 
+    transition: all 0.5s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tree li a {
+    text-decoration: none;
+    color: #000;
+    background-color: skyblue;
+    border: 1px solid #000;
+    padding: 6px 10px 2px 5px ; 
+    display: inline-block;
+    border-radius: 5px;
+    transition: all 0.5s;
+    width: 60px;
+    text-align: center;
+    font-size: 10px; }
+  
+  .tree li a:hover {
+    background-color:#fff;
+    color: #000;
+    border: 1px solid #000;
+  }
+  
+  .tree li:before, .tree li:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    border-top: 1px solid #000;
+    width: 50%;
+    height: 10px; 
+  }
+  
+  .tree li:before {
+    right: 50%;
+  }
+  
+  .tree li:after {
+    left: 50%;
+    border-left: 1px solid #000;
+  }
+  
+  .tree li:only-child:after, .tree li:only-child:before {
+    display: none;
+  }
+  
+  .tree li:only-child {
+    padding-top: 0;
+  }
+  
+  .tree li:first-child:before, .tree li:last-child:after {
+    border: 0 none;
+  }
+  
+  .tree li:last-child:before {
+    border-right: 1px solid #000;
+    border-radius: 0 5px 0 0;
+    transform: translateX(1px);
+    
+  }
+  
+  .tree li:first-child:after {
+    border-radius: 5px 0 0 0;
+    transform: translateX(-1px);
+  }
+  
+  .tree ul ul:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 1px solid #000;
+    width: 0;
+    height: 10px;
+  }
+  
+  .tree li a span {
+    display: block;
+    margin-top: 2px; 
+    font-size: 10px; 
+
+  }
+  
+  .tree > ul > li > ul > li a {
+    width: 65px; 
+    font-size: 11px;
+    font-weight: 700; 
+    text-align: center;
+  }
+ 
+  .dialogue{
+    max-width: 640px;  
+    padding: 30px;
+    justify-content: center;
+    text-align: center;
+}
