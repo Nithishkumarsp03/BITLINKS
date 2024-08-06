@@ -3,24 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-<<<<<<< HEAD
 import { BrowserRouter } from 'react-router-dom';
-=======
-import { BrowserRouter as Router } from 'react-router-dom';
->>>>>>> 3d320148f417ee042ce916df1243c87031b72ebb
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-<<<<<<< HEAD
     <BrowserRouter>
       <App />
     </BrowserRouter>
-=======
-    <Router>
-      <App />
-    </Router>
->>>>>>> 3d320148f417ee042ce916df1243c87031b72ebb
   </React.StrictMode>
 );
 
