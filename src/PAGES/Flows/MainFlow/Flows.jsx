@@ -8,9 +8,9 @@ import ApexChartMonthlyGraph from "../Graph/MonthlyGraph";
 import ApexChartWeeklyGraph from "../Graph/WeeklyGraph";
 import ApexChartYearlyGraph from "../Graph/YearlyGraph";
 
-export default function MainFlow({ viewCardIndex }) {
+export default function MainFlow({  }) {
   const [activeFlow, setActiveFlow] = useState("graph"); // Default to "graph"
-  console.log("MainFlow =", viewCardIndex);
+  // console.log("MainFlow =", viewCardIndex);
 
   const handleFlowClick = (flow) => {
     setActiveFlow(flow);
@@ -24,7 +24,7 @@ export default function MainFlow({ viewCardIndex }) {
         <div
           onClick={() => handleFlowClick("graph")}
           className={`flow-graph ${activeFlow === "graph" ? "expanded" : ""}`}>
-          <p className="flow-titles">{viewCardIndex}Engagement Graph</p>
+          <p className="flow-titles">Engagement Graph</p>
           {activeFlow === "graph" && (
             <div>
               <div className="graph-head-buttons">

@@ -163,6 +163,7 @@ body{
   .contents-body{
     display: flex;
     width: 100vw;
+    /* background-color: #0352b3; */
   }
 
   .error {
@@ -176,9 +177,10 @@ body{
   }
 
   .left-handside{
-    width: 350px;
-    height: 73vh;
-    overflow: hidden;
+    /* background-color: #ff6600; */
+    /* width: 0px; */
+    height: 100%;
+    /* overflow: hidden; */
     padding: 10px;
     padding-top: 0;
     margin-top: -4.5px;
@@ -248,13 +250,30 @@ body{
 }
 
 .middle {
+  /* background-color: #6ab303; */
   flex: 1;
-  display: flex;
+  /* display: flex; */
+height: 100%;
+  width: 53vw;
+  overflow: hidden;
+  /* margin-left: -10px;  */
+  margin-right: 10px; 
+}
+
+.middle.editing{
+  /* display: flex; */
+  /* overflow: hidden; */
+  width: 20vw;
+  height: 100%;
+  /* background-color: #ff6600; */
+  /* display: none; */
 }
   
 .right-handside {
-  width: 400px;
-  margin-right: 15px;
+  /* background-color: #ff0000; */
+  width: 100%;
+  height: 100%;
+  /* margin-right: 20px; */
 }
 
   .notify{
@@ -337,14 +356,14 @@ body{
     flex-direction: column;
     gap: 12px;
     padding: 15px;
-    margin-left: 20px;
+    margin-left: 10px;
     background-color: white;
     width: 100%;
     flex-grow: 1;
   }
 
   .search input{
-    width: 640px;
+    width: 100%;
     height: 40px;
     border: none;
     outline: none;
@@ -354,7 +373,8 @@ body{
     display: flex;
     overflow-x: scroll;
     margin: 20px;
-    max-width: 720px;
+    /* max-width: 720px; */
+    width: 53vw;
 }
 
 .options {
@@ -372,3 +392,173 @@ body{
     display: none;
 }
 
+/*********myconnections card**************/
+
+.person {
+  width: 100%;
+  height: 25%;
+  padding-top: 2%;
+  display: flex;
+  background-color: #fdfeff;
+  margin-bottom: 2%;
+  border: 1px solid transparent; 
+  transition: border 0.3s ease;
+  border-radius: 4px;
+}
+
+.myconnections,
+.networks {
+  /* background-color: #0352b3; */
+  margin-left: 2.5%;
+  height: 100%;
+  border-radius: 4px solid #ddd;
+  transition: width 0.3s ease;
+  width: 100%;
+  overflow-y: scroll;
+  /* max-height: 400px; */
+  overflow-y: auto;
+  /* padding: 10px; */
+}
+
+/* .myconnections.editing{
+  width: 10vw
+} */
+
+.myconnections.editing,
+.networks.editing {
+  width: 100%; 
+  /* height: 410px; */
+}
+
+.myconnections::-webkit-scrollbar,
+.networks::-webkit-scrollbar {
+  /* width: 8px; */
+  display: none;
+}
+
+.person.editing-border {
+  border-color: blue;
+}
+
+.view-carousel-container{
+  display: flex;
+  width: 100%;
+}
+
+.carousel {
+  /* margin-left: 1px; */
+  margin-left: 5%;
+  margin-top: 7%;
+  bottom: 5%;
+  width: 9%;
+}
+
+.addprofiles i {
+  position: relative;
+  left: 11px;
+  top: -23.6px;
+  height: 26;
+  width: 26;
+  border-radius: 4px;
+  color: #2867b2;
+}
+
+
+.person hr {
+  /* width: 0.5%; */
+  height: 80%;
+  /* background-color: #2867b2; */
+  margin-left: 0%;
+}
+
+.profile {
+  background-color: #ddd;
+  border: 1px solid black;
+  width: 64px;
+  height: 64px;
+  border-radius: 50px;
+  margin-left: 24px;
+  margin-top: 10px;
+}
+.profile-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.profile-left {
+  /* width: 20vw; */
+  display: flex;
+}
+.profile-right{
+  display: flex;
+}
+
+.person-username {
+  margin-left: 5%;
+  width: 10vw;
+  margin-top: 4%;
+}
+
+.person-username h5 {
+  width: 95%;
+  font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+  margin-left: 4%;
+}
+
+.peron-username p {
+  font-size: 12px;
+  margin-top: 4%;
+  font-family: "Open Sans", sans-serif;
+}
+
+
+.designation-view {
+  margin-left: 9%;
+  display: flex;
+  flex-direction: column;
+}
+
+.designation-view h5 {
+  font-weight: 400;
+  font-size: 12px;
+  margin-top: 2%;
+}
+
+.designation-view p {
+  margin-top: 5%;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0352b3;
+  text-decoration: underline;
+}
+
+
+.job {
+  margin-left: 3%;
+  width: 20vw;
+  margin-top: 2%;
+}
+
+.job p {
+  font-size: 11px;
+  font-family: "Open Sans", sans-serif;
+}
+
+.contact {
+  width: 20vw;
+  margin-top: 5%;
+  margin-left: 5%;
+}
+
+.contact p {
+  font-family: "Open Sans", sans-serif;
+  font-size: 11px;
+}
+
+.contact p i {
+  color: #2867b2;
+  width: 6%;
+  height: 6%;
+}
