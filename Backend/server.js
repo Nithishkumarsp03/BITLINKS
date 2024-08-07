@@ -54,6 +54,40 @@ app.post("/api/google", (req, res) => {
 });
 
 
+app.post("/api/check-connection", (req, res) => {
+  const { name } = req.body;
+  const normalizedName = name.trim().toLowerCase(); // Normalize the input name
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error("Error getting database connection:", err);
+      return res.status(500).json({ message: "Database error" });
+    }
+
+    connection.query(
+      "SELECT * FROM personalinfo WHERE LOWER(fullname) = ?",
+      [normalizedName],
+      (err, results) => {
+        connection.release();
+
+        if (err) {
+          console.error("Error executing database query:", err);
+          return res.status(500).json({ message: "Database error" });
+        }
+
+        if (results.length > 0) {
+          res.status(200).json({ message: "found" });
+        } else {
+          res.status(401).json({ message: "notfound" });
+        }
+      }
+    );
+  });
+});
+
+
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
