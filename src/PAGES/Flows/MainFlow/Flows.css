@@ -15,20 +15,20 @@
 
 .flow-graph {
   background-color: #fefeff;
-  height: 3vh; 
+  height: 4vh; 
   border-radius: 10px;
 }
 
 .flow-history {
   margin: 1% 0;
   background-color: #fefeff;
-  height: 3vh; /* Default height */
+  height: 4vh; /* Default height */
   border-radius: 10px;
 }
 
 .flow-chart {
   background-color: #fefeff;
-  height: 3vh; /* Default height */
+  height: 4vh; /* Default height */
   border-radius: 10px;
 }
 
@@ -51,7 +51,7 @@
 
 .flow-titles {
   display: flex;
-  padding: 0% 0% 0% 4%;
+  padding: 0.5% 0% 0% 4%;
   /* padding-top: 0.5%; */
   /* margin-left: 3%; */
   /* margin-top: 0.2%; */
@@ -66,7 +66,7 @@
 .buttonContainer-flowchart-head {
   /* padding: 20px; */
   margin-top: 2%;
-  margin-left: 60%;
+  margin-left: 56%;
   display: flex;
 }
 
@@ -194,11 +194,11 @@
 .history-add-button {
   background-color: #2867B2;
   color: white;
-  width: 65px;
-  height: 20px;
+  width: 70px;
+  height: 25px;
   border: none;
   border-radius: 10px;
-  margin-left: 70%;
+  margin-left: 77%;
   margin-top: 0.2%;
 }
 .history-add-button i{
