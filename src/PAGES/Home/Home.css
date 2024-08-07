@@ -47,6 +47,7 @@ header {
     margin: 0; /* Remove default margin */
     height: 6vh;
     margin-right: 30px;
+    color: #dfdfdf;
 }
 
 .end-container {
@@ -332,6 +333,112 @@ body{
     cursor: pointer;
   }
 
+  #popconnections{
+    height: 531px;
+    width:  695px;
+    margin-left: 30%;
+    margin-top: 6.5%;
+    border-radius: 10px;
+}
+#popaddconnections{
+    font-size: 16px;
+    border: none;
+    width: 252px;
+    height: 50px;
+    background-color: #2867B2;
+    font-weight: 500;
+    border-radius: 4px 0px 43px 0px;
+    color: white;
+  }
+  #popaddconnections i{
+    margin-right: 20px;
+    margin-left: -20px;
+    height: 16;
+    width: 16;
+  }
+  #namephone{
+    margin-top: 15px;
+  }
+  #insidenamephone{
+    margin-top: -15px;
+    margin-left: 140px;
+    font-size: 13px;
+    position: absolute;
+  }
+  #period{
+    margin-left: 131px;
+    margin-top: 20px;
+    font-size: 25.5px;
+    color: #EB5656;
+  }
+  #inputname{
+    border: none;
+    width: 296px;
+    padding: 10px;
+    padding-left: 15px;
+    margin-top: 10px;
+    border-radius: 4px 0px 0px 4px;
+    margin-left: 131px;
+    border: #7893C4 1px solid;
+  }
+
+  #inputname:focus{
+    outline: none;
+}
+#errorMessage {
+  color: #EB5656;
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: center;
+  position: absolute; /* Position it directly below the input field */
+  left: 50%;
+  transform: translateX(-50%); /* Center it horizontally */
+  width: 296px; /* Match the width of the input field */
+}
+#continue:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+#buttoncontainer{
+  display: flex;
+}
+
+#discard {
+  width: 76px;
+  height: 36px;
+  border-radius: 4px;
+  border: #8891AA 1px solid;
+  font-weight: 600;
+  margin-right: 15px;
+  margin-top: 203px;
+  margin-bottom: 30px;
+}
+
+#check{
+  width: auto;
+  height: 36px;
+  padding: 9px;
+  border-radius: 4px;
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  background-color: #72ef56;
+  border: #8891AA 1px solid;
+  outline: none;
+  margin-right: 15px;
+  margin-left: 204px;
+}
+
+#continue {
+  width: 86px;
+  height: 36px;
+  border-radius: 4px;
+  color: white;
+  background-color: #3f74d6;
+  border: #2867B2 1px solid;
+  font-weight: 600;
+  margin-right: 40px;
+}
+
   .search{
     display: flex;
     flex-direction: column;
@@ -372,3 +479,62 @@ body{
     display: none;
 }
 
+.card{
+  display: flex;
+  background-color: white;
+  margin-left: 20px;
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  padding-right: 13px;
+  /* justify-content: center; */
+}
+
+.profile-2{
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 1px solid black; 
+margin: 15px 10px;
+}
+
+.card-name{
+  max-width: 150px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.card-role{
+  font-weight: 400;
+  font-size: 12px;
+  margin-top: 0px;
+  max-width: 100px;
+  /* border: 1px solid black; */
+}
+
+.custom-hr {
+  margin-top: 10px;
+  margin-left: 10px;
+  height: 80px; /* Set the height of the hr */
+}
+
+.card-number i, .card-mail i{
+  color: #2867B2;
+}
+
+.card-number, .card-mail{
+  display: flex;
+  gap: 5px;
+  max-width: 210px;
+  font-size: 11px;
+  margin-top: 5px;
+  line-height: 10px;
+}
+
+
+.card-mail p {
+  max-width: 165px;
+  overflow: hidden; /* Hide any overflowing content */
+  text-overflow: ellipsis; /* Add an ellipsis (...) for overflowed content */
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+}

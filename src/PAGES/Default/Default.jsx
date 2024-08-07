@@ -8,6 +8,7 @@ import Rank3 from '../../Assets/Rank-2.svg'
 import Rank2 from '../../Assets/Rank-3.svg'
 import Rank1 from '../../Assets/Rank-4.svg'
 import PieAnimation from '../../COMPONENTS/Piechart'
+import { Dialog } from '@mui/material'
 import MainFlow from '../Flows/MainFlow/Flows'
 import '../Home/Home.css'
 
@@ -18,23 +19,121 @@ export default function Default() {
           <path d="M8.85746 12.5061C6.36901 10.6456 4.59564 8.59915 3.62734 7.44867C3.3276 7.09253 3.22938 6.8319 3.17033 6.3728C2.96811 4.8008 2.86701 4.0148 3.32795 3.5074C3.7889 3 4.60404 3 6.23433 3H17.7657C19.396 3 20.2111 3 20.672 3.5074C21.133 4.0148 21.0319 4.8008 20.8297 6.37281C20.7706 6.83191 20.6724 7.09254 20.3726 7.44867C19.403 8.60062 17.6261 10.6507 15.1326 12.5135C14.907 12.6821 14.7583 12.9567 14.7307 13.2614C14.4837 15.992 14.2559 17.4876 14.1141 18.2442C13.8853 19.4657 12.1532 20.2006 11.226 20.8563C10.6741 21.2466 10.0043 20.782 9.93278 20.1778C9.79643 19.0261 9.53961 16.6864 9.25927 13.2614C9.23409 12.9539 9.08486 12.6761 8.85746 12.5061Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       );
+      const Popup = () => (
+        <div style={{
+          position: 'absolute',
+          top: '270px',  // Adjust based on where you want the popup to appear
+          right: '480px',
+          width: '200px',
+          padding: '10px',
+          backgroundColor: '#fff',
+        //   border: "1px solid black",
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+          borderRadius: '4px',
+          zIndex: 1000
+        }}>
+          <div style={{display: "flex", justifyContent: "center", gap: "10px", padding: "5px", cursor: "pointer"}}>
+            <p>Sort by:</p>
+            <img src={Rank4} alt="" width="20px"/>
+            <p>Rank 4</p>
+          </div>
+          <hr color='#dfdfdf'/>
+          <div style={{display: "flex", justifyContent: "center", gap: "10px", padding: "5px", cursor: "pointer"}}>
+            <p>Sort by:</p>
+            <img src={Rank3} alt="" width="20px"/>
+            <p>Rank 3</p>
+          </div>
+          <hr color='#dfdfdf'/>
+          <div style={{display: "flex", justifyContent: "center", gap: "10px", padding: "5px", cursor: "pointer"}}>
+            <p>Sort by:</p>
+            <img src={Rank2} alt="" width="20px"/>
+            <p>Rank 2</p>
+          </div>
+          <hr color='#dfdfdf'/>
+          <div style={{display: "flex", justifyContent: "center", gap: "10px", padding: "5px", cursor: "pointer"}}>
+            <p>Sort by:</p>
+            <img src={Rank1} alt="" width="20px"/>
+            <p>Rank 1</p>
+          </div>
+        </div>
+      );
+      
 
     const [Connections, setConnections] = useState(true);
     const [networks, setNetworks] = useState(false);
     const [graph, setGraph] = useState(false);
+    const [filter, setFilter] = useState(false);
+    const [add, setAdd] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
 
     const handleConnections = () => {
         setConnections(true);
         setNetworks(false)
+        setFilter(false);
     }
 
     const handleNetworks = () => {
         setConnections(false);
         setNetworks(true);
+        setFilter(false);
     }
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+      };
+    
+      const handleCheck = async () => {
+        // console.log("Input value: ", inputValue);
+        try {
+          const response = await fetch('http://localhost:8000/api/check-connection', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: inputValue })
+          });
+      
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+      
+          const data = await response.json();
+      
+          if (data.message === 'found') {
+            setErrorMessage('Connection already exists');
+            setIsButtonDisabled(true);
+          } else if (inputValue.trim() === '') {
+            setErrorMessage('Name cannot be empty');
+            setIsButtonDisabled(true);
+          } else if (data.message === 'notfound'){
+            setErrorMessage(`${inputValue} is Available`);
+            setIsButtonDisabled(false);
+          }
+          else {
+            setIsButtonDisabled(false);
+          }
+        } catch (error) {
+          console.error('Error checking connection:', error);
+          setErrorMessage(`${inputValue} is Available`);
+        }
+      };
+    
+      const handleContinue = () => {
+        if (!isButtonDisabled) {
+          console.log('Connection added:', inputValue);
+          setAdd(false);
+        }
+      };
 
     const handleGraph = () => {
         setGraph(!graph);
+    }
+
+    const handleFilter = () => {
+        setFilter(!filter);
     }
 
     const handleCard = () => {
@@ -53,7 +152,7 @@ export default function Default() {
                         <img src={Networks} alt="" />
                         <p style={{fontSize: "16px", fontWeight: "600"}}>Networks</p>
                     </div>
-                    <div className='add-new'>
+                    <div className='add-new' onClick={()=> setAdd(true)}>
                         <img src={Add} alt="" />
                         <p style={{fontSize: "16px", fontWeight: "600"}}>Add Connections</p>
                     </div>
@@ -123,7 +222,7 @@ export default function Default() {
                                 <p style={{fontSize: "16px", fontWeight: "600"}}>Connections</p>
                                 <div style={{display: "flex"}}>
                                     <input type="text" placeholder="Search Connections" />
-                                    <FilterIcon style={{marginTop: "7px"}}/>
+                                    <FilterIcon style={{marginTop: "7px"}} onClick={handleFilter}/>    
                                 </div>
                             </div>
                             <div className='horizontal-scroll'>
@@ -155,7 +254,29 @@ export default function Default() {
                                 <p>With BIT</p>
                                 </div>
                             </div>
-                            <div onClick={handleCard}></div>
+                            <div onClick={handleCard}>
+                                <div className='card'>
+                                    <div className='profile-2'></div>
+                                    <div style={{marginRight: '10px', marginTop: '10px', marginLeft: '10px'}}>
+                                        <p className='card-name'>NAME</p>
+                                        <p className='card-role'>SENIOR UI DESIGNER ewf fewf ef</p>
+                                        <p style={{color: '#245C9F', fontSize: '12px', fontWeight: '500', textDecoration: 'underline'}}>View Connections</p>
+                                    </div>
+                                    <hr class="custom-hr" color='#2867B2'/>
+                                    <p style={{maxWidth: "250px", marginLeft: "18px", fontSize: '13px', marginTop: '10px'}}>ebgiunerigvbufndbvkdf ovnwoi niowenvc oewncf hNWFNC Ofnc wNF CWNC Nwdf nwF </p>
+                                    <div style={{marginLeft: '30px', marginTop: '3%'}}>
+                                        <div className='card-number'>
+                                            <i className="fa-solid fa-phone"></i>
+                                            <p>909869879</p>
+                                        </div>
+                                        <div className='card-mail'>
+                                            <i className="fa-solid fa-envelope"></i>
+                                            <p>girishashokgaikwad.cs23@bitsathy.ac.in</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {filter && <Popup />}
                         </div>
                      ):
                      (
@@ -164,7 +285,7 @@ export default function Default() {
                                 <p style={{fontSize: "16px", fontWeight: "600"}}>Networks</p>
                                 <div style={{display: "flex"}}>
                                     <input type="text" placeholder="Search Networks" />
-                                    <FilterIcon style={{marginTop: "7px"}}/>
+                                    <FilterIcon style={{marginTop: "7px"}} onClick={handleFilter}/>
                                 </div>
                             </div>
                             <div className='horizontal-scroll'>
@@ -196,6 +317,29 @@ export default function Default() {
                                 <p>With BIT</p>
                                 </div>
                             </div>
+                            <div onClick={handleCard}>
+                                <div className='card'>
+                                    <div className='profile-2'></div>
+                                    <div style={{marginRight: '10px', marginTop: '10px', marginLeft: '10px'}}>
+                                        <p className='card-name'>NAME</p>
+                                        <p className='card-role'>SENIOR UI DESIGNER ewf fewf ef</p>
+                                        <p style={{color: '#245C9F', fontSize: '12px', fontWeight: '500', textDecoration: 'underline'}}>View Connections</p>
+                                    </div>
+                                    <hr class="custom-hr" color='#2867B2'/>
+                                    <p style={{maxWidth: "250px", marginLeft: "18px", fontSize: '13px', marginTop: '10px'}}>ebgiunerigvbufndbvkdf ovnwoi niowenvc oewncf hNWFNC Ofnc wNF CWNC Nwdf nwF </p>
+                                    <div style={{marginLeft: '30px', marginTop: '3%'}}>
+                                        <div className='card-number'>
+                                            <i className="fa-solid fa-phone"></i>
+                                            <p>909869879</p>
+                                        </div>
+                                        <div className='card-mail'>
+                                            <i className="fa-solid fa-envelope"></i>
+                                            <p>girishashokgaikwad.cs23@bitsathy.ac.in</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {filter && <Popup />}
                         </div>
                      )
                 }
@@ -311,6 +455,31 @@ export default function Default() {
                     )
                 }
             </div>
+            <Dialog id='popconnections' open={add} onClose={() => setAdd(false)}>
+      <div>
+        <button id='popaddconnections'>
+          <i className="fa-solid fa-square-plus"></i> Add Connections
+        </button>
+        <h6 id='namephone'>
+          <p id='period'>.</p>
+          <p id='insidenamephone'>Name or Phone No</p>
+        </h6>
+        <input
+          id='inputname'
+          type='text'
+          placeholder='Enter the name (Initial at the back)'
+          autoComplete='off'
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        {errorMessage && <div id='errorMessage'>{errorMessage}</div>}
+        <div id='buttonContainer'>
+          <button onClick={handleCheck} id='check'>Check for Availability</button>
+          <button onClick={() => setAdd(false)} color="primary" id='discard'>Discard</button>
+          <button className="open" onClick={handleContinue} color="primary" id='continue' disabled={isButtonDisabled}>Continue</button>
+        </div>
+      </div>
+    </Dialog>
     </div>
   )
 }
