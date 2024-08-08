@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 import Round from '../../Assets/icons.svg'
 import Networks from '../../Assets/Networks.svg'
 import Add from '../../Assets/add.svg'
@@ -10,6 +11,7 @@ import Rank1 from '../../Assets/Rank-4.svg'
 import PieAnimation from '../../COMPONENTS/Piechart'
 import { Dialog } from '@mui/material'
 import MainFlow from '../Flows/MainFlow/Flows'
+import Cookies from "js-cookie";
 import '../Home/Home.css'
 
 export default function Default() {
@@ -59,15 +61,23 @@ export default function Default() {
       );
       
 
+    const userProfile = Cookies.get("userProfile");
+    const parsedProfile = userProfile ? JSON.parse(userProfile) : null;
+    const email = parsedProfile?.email;
+    const [userNetworks, setuserNetworks] = useState([]);
     const [Connections, setConnections] = useState(true);
     const [networks, setNetworks] = useState(false);
     const [graph, setGraph] = useState(false);
     const [filter, setFilter] = useState(false);
     const [add, setAdd] = useState(false);
     const [inputValue, setInputValue] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [view, setView] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [view, setView] = useState(false);
+    const [personalInfo, setPersonalInfo] = useState(null);
+    const [personalInfos, setPersonalInfos] = useState([]);
+    const [error, setError] = useState(null);
+    const [selectedPersonId, setSelectedPersonId] = useState(null);
 
 
     const handleConnections = () => {
@@ -123,6 +133,55 @@ export default function Default() {
           setErrorMessage(`${inputValue} is Available`);
         }
       };
+
+      useEffect(() => {
+        const fetchuserNetworks = async () => {
+          try {
+            const response = await fetch('http://localhost:8000/api/userNetworks');
+            const data = await response.json();
+            setuserNetworks(data);
+          } catch (error) {
+            console.error('Error fetching user connections:', error);
+          }
+        };
+      
+        fetchuserNetworks();
+      }, []);
+
+      useEffect(() => {
+        const fetchPersonalInfo = async () => {
+          try {
+            const response = await fetch('http://localhost:8000/api/userConnections', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ email }), // Send email as JSON
+            });
+    
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+    
+            const data = await response.json();
+            setPersonalInfos(data); // Expect an array of results
+          } catch (error) {
+            setError(error.message);
+          }
+        };
+    
+        if (email) {
+          fetchPersonalInfo();
+        }
+      }, [email]);
+    
+      if (error) {
+        return <p>Error: {error}</p>;
+      }
+    
+      if (personalInfos.length === 0) {
+        return <p>No connections found.</p>;
+      }
     
       const handleContinue = () => {
         if (!isButtonDisabled) {
@@ -139,8 +198,10 @@ export default function Default() {
         setFilter(!filter);
     }
 
-    const handleCard = () => {
-        setView(!view);
+    const handleCard = (id) => {
+        setSelectedPersonId(id)
+        console.log('PersonId:',selectedPersonId);
+        setView(!view)
     }
 
   return (
@@ -257,36 +318,39 @@ export default function Default() {
                                 <p>With BIT</p>
                                 </div>
                             </div>
-                            <div onClick={handleCard}>
-                                <div className='card'>
-                                    <div className='profile-2'></div>
-                                    <div style={{marginRight: '10px', marginTop: '10px', marginLeft: '10px'}}>
-                                        <p className='card-name'>NAME</p>
-                                        <p className='card-role'>SENIOR UI DESIGNER ewf fewf ef</p>
-                                        <p style={{color: '#245C9F', fontSize: '12px', fontWeight: '500', textDecoration: 'underline'}}>View Connections</p>
+                            {personalInfos.map((connection) => (
+                                <div key={connection.person_id} >
+                                <div className='card' onClick={()=> handleCard(connection.person_id)}>
+                                    <div className='profile-2'>
+                                    <img src={`http://localhost:8000${connection.profile}`} alt="Profile" />
                                     </div>
-                                    { 
-                                        !view? (
-                                            <div style={{display: 'flex'}}>
-                                                <hr class="custom-hr" color='#2867B2'/>
-                                                <p style={{maxWidth: "250px", marginLeft: "18px", fontSize: '13px', marginTop: '10px'}}>ebgiunerigvbufndbvkdf ovnwoi niowenvc oewncf hNWFNC Ofnc wNF CWNC Nwdf nwF </p>
-                                                <div style={{marginLeft: '30px', marginTop: '3%'}}>
-                                                    <div className='card-number'>
-                                                        <i className="fa-solid fa-phone"></i>
-                                                        <p>909869879</p>
-                                                    </div>
-                                                    <div className='card-mail'>
-                                                        <i className="fa-solid fa-envelope"></i>
-                                                        <p>girishashokgaikwad.cs23@bitsathy.ac.in</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ) :
-                                        ('')
-                                    }
-                                    
+                                    <div style={{ marginRight: '10px', marginTop: '10px', marginLeft: '10px' }}>
+                                    <p className='card-name'>{connection.fullname}</p>
+                                    <p style={{ color: '#245C9F', fontSize: '12px', fontWeight: '500', textDecoration: 'underline', cursor: 'pointer' }}>
+                                        {view ? 'Hide Details' : 'View Details'}
+                                    </p>
+                                    </div>
+                                    {!view ? (
+                                    <div style={{ display: 'flex' }}>
+                                        <hr className="custom-hr" color='#2867B2' />
+                                        <p style={{ maxWidth: "250px", marginLeft: "18px", fontSize: '13px', marginTop: '10px', width: '100%' }}>
+                                        {connection.shortdescription}
+                                        </p>
+                                        <div style={{ marginLeft: '30px', marginTop: '3%' }}>
+                                        <div className='card-number'>
+                                            <i className="fa-solid fa-phone"></i>
+                                            <p>{connection.phonenumber}</p>
+                                        </div>
+                                        <div className='card-mail'>
+                                            <i className="fa-solid fa-envelope"></i>
+                                            <p>{connection.email}</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    ) : ('')}
                                 </div>
-                            </div>
+                                </div>
+                            ))}
                             {filter && <Popup />}
                         </div>
                      ):
@@ -328,33 +392,35 @@ export default function Default() {
                                 <p>With BIT</p>
                                 </div>
                             </div>
-                            <div onClick={handleCard}>
-                                <div className='card'>
-                                    <div className='profile-2'></div>
-                                    <div style={{marginRight: '10px', marginTop: '10px', marginLeft: '10px'}}>
-                                        <p className='card-name'>NAME</p>
-                                        <p className='card-role'>SENIOR UI DESIGNER ewf fewf ef</p>
-                                        <p style={{color: '#245C9F', fontSize: '12px', fontWeight: '500', textDecoration: 'underline'}}>View Connections</p>
+                            {userNetworks.map(connection => (
+                                <div key={connection.person_id} >
+                                    <div className='card' onClick={()=> handleCard(connection.person_id)}>
+                                    <div className='profile-2'>
+                                        <img src={`http://localhost:8000${connection.profile}`} alt="" />
                                     </div>
-                                    { 
-                                        !view? (
-                                            <div style={{display: "flex"}}>
-                                    <hr class="custom-hr" color='#2867B2'/>
-                                    <p style={{maxWidth: "250px", marginLeft: "18px", fontSize: '13px', marginTop: '10px'}}>ebgiunerigvbufndbvkdf ovnwoi niowenvc oewncf hNWFNC Ofnc wNF CWNC Nwdf nwF </p>
-                                    <div style={{marginLeft: '30px', marginTop: '3%'}}>
-                                        <div className='card-number'>
+                                    <div style={{ marginRight: '10px', marginTop: '10px', marginLeft: '10px' }}>
+                                        <p className='card-name'>{connection.fullname}</p>
+                                        <p style={{ color: '#245C9F', fontSize: '12px', fontWeight: '500', textDecoration: 'underline' }}>View Connections</p>
+                                    </div>
+                                    {!view ? (
+                                        <div style={{ display: 'flex' }}>
+                                        <hr className="custom-hr" color='#2867B2' />
+                                        <p style={{ maxWidth: "250px", marginLeft: "18px", fontSize: '13px', marginTop: '10px' }}>{connection.shortdescription}</p>
+                                        <div style={{ marginLeft: '30px', marginTop: '3%' }}>
+                                            <div className='card-number'>
                                             <i className="fa-solid fa-phone"></i>
-                                            <p>909869879</p>
-                                        </div>
-                                        <div className='card-mail'>
+                                            <p>{connection.phonenumber}</p>
+                                            </div>
+                                            <div className='card-mail'>
                                             <i className="fa-solid fa-envelope"></i>
-                                            <p>girishashokgaikwad.cs23@bitsathy.ac.in</p>
+                                            <p>{connection.email}</p>
+                                            </div>
                                         </div>
+                                        </div>
+                                    ) : ('')}
                                     </div>
                                 </div>
-                                        ):('')}
-                                        </div>
-                            </div>
+                                ))}
                             {filter && <Popup />}
                         </div>
                      )

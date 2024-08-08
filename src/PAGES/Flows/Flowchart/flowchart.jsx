@@ -2,8 +2,9 @@ import React from "react";
 import { Dialog, Box, TextareaAutosize } from "@mui/material";
 import Input from '@mui/joy/Input';
 import { Tree, TreeNode } from "react-organizational-chart";
+import "./flowchart.css";
 import { useState, useRef  } from "react";
-import { useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 import dayjs from "dayjs";
 import Textarea from "@mui/joy/Textarea";
 import Profile from "../../../Assets/Profile.png";
@@ -13,15 +14,15 @@ import {
   CircularProgressbarWithChildren,
   buildStyles,
 } from "react-circular-progressbar";
-import './flowchart.css';
 
 const ChangingProgressProvider = ({ value, children }) => {
   return children(value);
 };
 
 const Flowchart = () => {
-  const location = useLocation();
-  const { email } = location.state || {};
+  const userProfile = Cookies.get("userProfile");
+  const parsedProfile = userProfile ? JSON.parse(userProfile) : null;
+  const email = parsedProfile?.email;
   const [person, setPerson] = useState(false);
   const [company, setCompany] = useState(false);
   const [alumni, setAlumni] = useState(false);
@@ -269,6 +270,8 @@ const Flowchart = () => {
   };
 
   const handlePerson = async (e) => {
+    calculateProgress1();
+    setPerson(false);
     e.preventDefault();
     let errorMessage = "";
 
@@ -319,6 +322,7 @@ const Flowchart = () => {
         }
 
         const uploadData = await uploadResponse.json();
+        console.log('Imagepath: ',uploadData.path);
         imagePath = uploadData.path;
       } catch (error) {
         console.error("Error:", error);
@@ -392,10 +396,10 @@ const Flowchart = () => {
     setProgress(progressValue);
   };
 
-  const handleSubmit = () => {
-    setPerson(false);
-    calculateProgress();
-  };
+  // const handlePerson = () => {
+  //   setPerson(false);
+  //   calculateProgress();
+  // };
 
   const calculateProgress1 = () => {
     const totalFields = Object.keys(personInfo).length + 1;
@@ -589,7 +593,7 @@ const Flowchart = () => {
                             strokeLinecap="round"
                           />
                         </svg>
-                        <h6 style={{ margin: 0, color: "#122E50" }}>Person</h6>
+                        <h6 style={{ color: "#122E50" }}>Person</h6>
                       </div>
                     </CircularProgressbarWithChildren>
                   )}
@@ -818,8 +822,7 @@ const Flowchart = () => {
                   label={
                     <div className="node child">
                       <div
-                        className="dote
-"></div>
+                        className="dote"></div>
                       <div className="border-image-container"></div>
                       <div className="icon">
                         <a5
