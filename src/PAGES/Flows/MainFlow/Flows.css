@@ -17,6 +17,7 @@
   background-color: #fefeff;
   height: 4vh; 
   border-radius: 10px;
+
 }
 
 .flow-history {
@@ -36,6 +37,7 @@
   height: 66vh;
   /* height: 390; */
   border-radius: 10px;
+  /* display: flex; */
 }
 
 .flow-history.expanded {
@@ -101,7 +103,9 @@
 .diamond-points {
   display: flex;
   width: 30%;
-  margin-top: 1%;
+  /* margin-top: 3%; */
+  margin-left: 10%;
+  padding-bottom: 2%;
 }
 
 .total-points-box {
@@ -124,7 +128,7 @@
 }
 .graph-head-buttons {
   display: flex;
-  margin-left: 25%;
+  margin-left: 50%;
   width: 100%;
 }
 .total-points {
@@ -191,19 +195,7 @@
   padding-top: 10px;
   /* margin-left: 10%; */
 }
-.history-add-button {
-  background-color: #2867B2;
-  color: white;
-  width: 70px;
-  height: 25px;
-  border: none;
-  border-radius: 10px;
-  margin-left: 77%;
-  margin-top: 0.2%;
-}
-.history-add-button i{
-  padding-left: 8px;
-}
+
 .history-add-main{
   margin-left: 70%;
   margin-top: 0.5%;

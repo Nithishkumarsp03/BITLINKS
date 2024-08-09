@@ -13,7 +13,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Space out items */
-  padding: 4px;
+  padding: 7px;
   background-color: #FEFEFF;
   /* margin: 20px; */
 }
@@ -31,8 +31,8 @@ header {
 }
 
 .search-container input {
-  width: 100%;
-  max-width: 500px; /* Adjust as needed */
+  width: 80%;
+  max-width: 400px; /* Adjust as needed */
   padding: 10px;
   border-radius: 5px;
   border: none;
@@ -43,17 +43,17 @@ header {
 }
 
 .separator {
-  border: 1px solid #E7EEF4; /* Add a black line */
+  border: 1px solid #afadad; /* Add a black line */
   margin: 0; /* Remove default margin */
   height: 6vh;
   margin-right: 30px;
-  color: #dfdfdf;
+  color: #474646;
 }
 
 .end-container {
   display: flex;
   align-items: center;
-  gap: 10px; /* Spacing between items */
+  gap: 10px; 
 }
 
 .profile {
@@ -64,6 +64,7 @@ header {
   justify-content: center; /* Horizontally centers the image */
   overflow: hidden; /* Hides any part of the image that exceeds the container */
   border-radius: 50%; /* Optional: make the container circular */
+  /* margin-right: 0.5%; */
 }
 
 .profile img{
@@ -87,7 +88,7 @@ header {
 }
 
 
-/*/*************** Body *****************/
+/************** Body *****************/
 
 body{
   background-color: #EDF3F7;
@@ -178,7 +179,7 @@ body{
 }
 
 .left-handside{
-  width: 350px;
+  width: 21vw;
   height: 73vh;
   overflow: hidden;
   padding: 10px;
@@ -201,7 +202,7 @@ flex-wrap: wrap;
 
 .rank1, .rank2, .rank3, .rank4 {
 background-color: #FCFDFE; /* Optional: Just for visualization */
-height: 90px; /* Adjust as needed */ 
+height: 80px; /* Adjust as needed */ 
 border-radius: 10px;
 font-size: 20px; /* Optional: Adjust text size */
 }
@@ -240,22 +241,31 @@ cursor: pointer;
 .graph .graph-contents{
 display: flex;
 position: relative;
-gap: 140px;
+/* gap: 140px; */
 z-index: 1;
 padding: 12px;
+width: 90%;
 }
 
 .graph .graph-contents>p{
 font-size: 18px;
 font-weight: 600;
+/* width: 20vw; */
 }
 
 .middle {
 /* background-color: #EB5656; */
-width: 50vw;
+width: 53vw;
 }
 .middle.show{
   width: 20%;
+}
+.middle.addconnection{
+  width: 80%;
+}
+
+.card.show{
+  margin-bottom: 5%;
 }
 
 .connections{
@@ -270,15 +280,18 @@ width: 45%;
 }
 
 .right-handside {
-width: 24vw;
+width: 21vw;
 padding-right: 35px;
 /* margin-right: 15px; */
 margin-left: 0.5%;
 }
 .right-handside.show{
-  width: 54%;
+  width: 55vw;
 /* width: 1000px;
 margin-left: -410px; */
+}
+.right-handside.addconnection{
+  display: none;
 }
 
 .notify{
@@ -342,6 +355,42 @@ color: black;
   padding: 9px;
   padding: 18px;
   cursor: pointer;
+  background: linear-gradient(
+      to left,
+      rgb(255, 253, 253) 50%,
+      rgb(224, 240, 245) 50%
+    )
+    right;
+    background-size: 200%;
+  transition: 0.5s steps(25);
+}
+
+.buttons:hover{
+background-position: left;
+  animation: changeToRed 0.5s steps(25), showRed 0.5s steps(1) 0.5s forwards,
+    revertColor 0.5s steps(1) 1s forwards;
+}
+
+.button-hr{
+  /* margin: -6% 0% 0% -6%;
+  min-height: 20px;
+  height: 90px;
+  max-height: 200px;
+  width: 2%;
+  color: #2867B2;
+  background-color: #3f74d6; */
+}
+
+.buttons.open h4::before {
+  content: "";
+  position: absolute;
+  /* justify-content: start; */
+  top: 0;
+  left: 0;
+  margin-left: 0%;
+  width: 3%;
+  height: 33.3%;
+  background: linear-gradient(to left, #2867b2 40%, #2867b2 50%) right;
 }
 
 .add-new{
@@ -418,10 +467,10 @@ left: 50%;
 transform: translateX(-50%); /* Center it horizontally */
 width: 296px; /* Match the width of the input field */
 }
-#continue:disabled {
+/* #continue:disabled {
 background-color: #ccc;
 cursor: not-allowed;
-}
+} */
 #buttoncontainer{
 display: flex;
 }
@@ -451,7 +500,7 @@ margin-right: 15px;
 margin-left: 204px;
 }
 
-#continue {
+.continue {
 width: 86px;
 height: 36px;
 border-radius: 4px;
@@ -460,6 +509,12 @@ background-color: #3f74d6;
 border: #2867B2 1px solid;
 font-weight: 600;
 margin-right: 40px;
+cursor: pointer;
+}
+
+.continue.disable{
+  cursor: not-allowed;
+  background-color: #29313f;
 }
 
 .search{
@@ -471,11 +526,12 @@ margin-right: 40px;
   background-color: white;
   width: 100%;
   flex-grow: 1;
+  height: 9vh;
 }
 
 .search input{
   width: 640px;
-  height: 40px;
+  height: 20px;
   border: none;
   outline: none;
 }
@@ -483,16 +539,17 @@ margin-right: 40px;
 .horizontal-scroll {
   display: flex;
   overflow-x: scroll;
-  margin: 20px;
-  max-width: 720px;
+  margin: 15px 15px 15px 18px;
+  /* max-width: 720px; */
+  width: 100%;
 }
 
 .options {
   margin: 5px;
   margin-top: 0;
-  width: 150px;
+  width: 100%;
   border-radius: 20px;
-  padding: 10px;
+  padding: 1% 3.4% 1% 3.4%;
   border: 1px solid black;
   white-space: nowrap;
   text-align: center;
@@ -510,8 +567,7 @@ width: 100%;
 height: 100px;
 padding: 10px;
 padding-right: 13px;
-margin-bottom: 10px;
-cursor: pointer;
+margin-bottom: 2%;
 /* justify-content: center; */
 }
 
@@ -519,18 +575,18 @@ cursor: pointer;
 width: 65px;
 height: 65px;
 border-radius: 50%;
+border: 1px solid black; 
 margin: 15px 10px;
 overflow: hidden;
 }
-
-.profile-2 img {
+.profile-2 img{
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the image covers the container */
+  object-fit: fill;
 }
 
 .card-name{
-max-width: 150px;
+width: 100%;
 font-size: 13px;
 font-weight: 700;
 }
@@ -556,7 +612,7 @@ color: #2867B2;
 .card-number, .card-mail{
 display: flex;
 gap: 5px;
-max-width: 210px;
+/* width: 8vw; */
 font-size: 11px;
 margin-top: 5px;
 line-height: 10px;
@@ -564,8 +620,27 @@ line-height: 10px;
 
 
 .card-mail p {
-max-width: 165px;
-overflow: hidden; /* Hide any overflowing content */
-text-overflow: ellipsis; /* Add an ellipsis (...) for overflowed content */
+/* max-width: 165px; */
+/* overflow: hidden;  */
+/* text-overflow: ellipsis;  */
 white-space: nowrap; /* Prevent text from wrapping to the next line */
+}
+
+.myconnections-card,.networks-card{
+  height: 52vh;
+  width: 100%;
+  gap: 1rem;
+  overflow-y: scroll;
+  overflow-x:hidden;
+  overflow-y: auto;
+}
+
+.myconnections-card::-webkit-scrollbar,
+.networks-card::-webkit-scrollbar {
+  /* width: 8px; */
+  display: none;
+}
+
+button,.options{
+  cursor: pointer;
 }

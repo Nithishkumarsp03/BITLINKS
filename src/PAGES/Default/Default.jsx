@@ -8,9 +8,14 @@ import Rank4 from '../../Assets/Rank-1.svg'
 import Rank3 from '../../Assets/Rank-2.svg'
 import Rank2 from '../../Assets/Rank-3.svg'
 import Rank1 from '../../Assets/Rank-4.svg'
+import Filter from "../../Assets/sort by.png"
+import Search from "../../Assets/search.png"
 import PieAnimation from '../../COMPONENTS/Piechart'
 import { Dialog } from '@mui/material'
-import MainFlow from '../Flows/MainFlow/Flows'
+import MainFlow from '../Flows/MainFlow/Flows';
+import RankFlow from '../RankFlow/RankFlow/RankFlow'
+import ExpertiseChart from '../Flowcontacts/ExpertiseChart';
+import ShowAddAccount from '../AddConnections/Addaccount';
 import Cookies from "js-cookie";
 import '../Home/Home.css'
 
@@ -74,17 +79,26 @@ export default function Default() {
     const [errorMessage, setErrorMessage] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [view, setView] = useState(false);
+    const [viewconnection, setViewConnection] = useState(false);
+    const [Myconnectionshr,setMyconnectionshr] = useState(true);
+    const [Networkshr, setNetworkshr] = useState(false);
+    const [ExpertiseConnection, setExpertiseConnection] = useState(false);  
     const [personalInfo, setPersonalInfo] = useState(null);
     const [personalInfos, setPersonalInfos] = useState([]);
     const [error, setError] = useState(null);
     const [selectedPersonId, setSelectedPersonId] = useState(null);
-
+    const [AddConnections, setAddConnections] = useState(false);
 
     const handleConnections = () => {
         setConnections(true);
         setNetworks(false)
         setFilter(false);
         setView(false);
+        setMyconnectionshr(true)
+        setNetworkshr(false);
+        setViewConnection(false);
+        setExpertiseConnection(false);
+        setAddConnections(false);
     }
 
     const handleNetworks = () => {
@@ -92,11 +106,19 @@ export default function Default() {
         setNetworks(true);
         setFilter(false);
         setView(false);
+        setMyconnectionshr(false)
+        setNetworkshr(true);
+        setViewConnection(false);
+        setExpertiseConnection(false);
+        setAddConnections(false);
     }
 
     const handleInputChange = (e) => {
-        setInputValue(e.target.value);
-      };
+      setInputValue(e.target.value);
+      setErrorMessage('');
+      setIsButtonDisabled(true);  // Disable button when input changes
+    };
+    
     
       const handleCheck = async () => {
         // console.log("Input value: ", inputValue);
@@ -118,7 +140,7 @@ export default function Default() {
           if (data.message === 'found') {
             setErrorMessage('Connection already exists');
             setIsButtonDisabled(true);
-          } else if (inputValue.trim() === '') {
+          } else if (inputValue === '') {
             setErrorMessage('Name cannot be empty');
             setIsButtonDisabled(true);
           } else if (data.message === 'notfound'){
@@ -129,8 +151,15 @@ export default function Default() {
             setIsButtonDisabled(false);
           }
         } catch (error) {
+          if(inputValue === ''){
+            setErrorMessage('Name cannot be empty');
+            setIsButtonDisabled(true);
+          }
+          else{
           console.error('Error checking connection:', error);
           setErrorMessage(`${inputValue} is Available`);
+          setIsButtonDisabled(false);
+          }
         }
       };
 
@@ -184,6 +213,13 @@ export default function Default() {
       }
     
       const handleContinue = () => {
+        setAddConnections(true);
+        setConnections(false);
+        setNetworks(false)
+        setFilter(false);
+        setMyconnectionshr(false);
+        setNetworkshr(false);
+
         if (!isButtonDisabled) {
           console.log('Connection added:', inputValue);
           setAdd(false);
@@ -202,6 +238,17 @@ export default function Default() {
         setSelectedPersonId(id)
         console.log('PersonId:',selectedPersonId);
         setView(!view)
+        setViewConnection(viewconnection);
+    }
+
+    const handleViewConnection = () => {
+        setViewConnection(!viewconnection);
+        setView(view)
+        console.log("VIEW CONNECTION CLICKED");
+    }
+
+    const handleExpertiseConnection = () => {
+        setExpertiseConnection(!ExpertiseConnection);
     }
 
   return (
@@ -267,30 +314,38 @@ export default function Default() {
                     <div className='graph-contents'>
                         {
                             graph? (
-                                <pre><p style={{fontSize: "19px", fontWeight: "600"}}>Ranking Details </p></pre>
+                                <pre><p style={{fontSize: "19px", fontWeight: "600",paddingRight: "8vw"}}>Ranking Details </p></pre>
                             ):
                             (
-                                <p>Network Analysis</p>
+                                <p style={{width: "100%"}}>Network Analysis</p>
                             )
                         }
                         <img src={info} alt="" />
                     </div>
                 </div>
             </div>
-            <div className={`middle ${view? 'show': ''}`}> 
+            
+            <div className={`middle ${view || viewconnection || ExpertiseConnection ? 'show' : (AddConnections ? 'addconnection' : '')}`}>
+ 
+            {/* <div> */}
+            { !AddConnections ? (
+              <div>
                 {
                     Connections ?
                      (
                         <div style={{width: "100%", overflow: "hidden", marginLeft: "-10px"}}>
                             <div className="search">
                                 <p style={{fontSize: "16px", fontWeight: "600"}}>Connections</p>
+                                <hr style={{width: "92%", backgroundColor:"grey"}}/>
                                 <div style={{display: "flex"}}>
                                     <input type="text" placeholder="Search Connections" />
-                                    <FilterIcon style={{marginTop: "7px"}} onClick={handleFilter}/>    
+                                    {/* <FilterIcon style={{marginTop: "7px"}} onClick={handleFilter}/>    */}
+                                    <img src={Filter} alt='FILTER' style={{width: "3.5%",height: "80%"}}></img>
+                                    <img src={Search} alt='SEARCH' style={{width: "3.5%",height: "80%",marginLeft: "2%"}}></img>
                                 </div>
                             </div>
                             <div className='horizontal-scroll'>
-                                <div className="options">
+                                <div className="options" onClick={handleExpertiseConnection}>
                                 <p>Expertise</p>
                                 </div>
                                 <div className="options">
@@ -316,27 +371,36 @@ export default function Default() {
                                 </div>
                                 <div className="options">
                                 <p>With BIT</p>
-                                </div>
+                                </div>  
                             </div>
+                            <div className='myconnections-card'>
                             {personalInfos.map((connection) => (
                                 <div key={connection.person_id} >
-                                <div className='card' onClick={()=> handleCard(connection.person_id)}>
+                                <div className={`card ${view? 'show': ''}`} onClick={()=> handleCard(connection.person_id)}>
                                     <div className='profile-2'>
                                     <img src={`http://localhost:8000${connection.profile}`} alt="Profile" />
                                     </div>
-                                    <div style={{ marginRight: '10px', marginTop: '10px', marginLeft: '10px' }}>
+                                    <div style={{ marginRight: '0px', marginTop: '3%', marginLeft: '10px',width: "9vw" }}>
                                     <p className='card-name'>{connection.fullname}</p>
-                                    <p style={{ color: '#245C9F', fontSize: '12px', fontWeight: '500', textDecoration: 'underline', cursor: 'pointer' }}>
+                                    <p onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleViewConnection(); 
+                                        }}
+                                        style={{ color: '#0352b3', fontSize: '12px',marginTop: "2%", fontWeight: '500', textDecoration: 'underline', cursor: 'pointer', height: "5vh",width: "5vw" }}>
                                         {view ? 'Hide Details' : 'View Details'}
                                     </p>
                                     </div>
-                                    {!view ? (
+                                    { 
+                                        ( !view ? 
+                                            ( !viewconnection ? 
+                                                ( !ExpertiseConnection ? 
+
                                     <div style={{ display: 'flex' }}>
                                         <hr className="custom-hr" color='#2867B2' />
-                                        <p style={{ maxWidth: "250px", marginLeft: "18px", fontSize: '13px', marginTop: '10px', width: '100%' }}>
+                                        <p style={{ width: "18vw", marginLeft: "18px", fontSize: '12px', marginTop: '10px',overflowY: "scroll",overflowY: "auto",height: "11vh",scrollbarWidth: 'none', }}>
                                         {connection.shortdescription}
                                         </p>
-                                        <div style={{ marginLeft: '30px', marginTop: '3%' }}>
+                                        <div style={{ marginLeft: '20px', marginTop: '5%' }}>
                                         <div className='card-number'>
                                             <i className="fa-solid fa-phone"></i>
                                             <p>{connection.phonenumber}</p>
@@ -347,10 +411,15 @@ export default function Default() {
                                         </div>
                                         </div>
                                     </div>
-                                    ) : ('')}
+                                     : (''))
+                                     : ('') )
+                                    : (''))
+                                }
+
                                 </div>
                                 </div>
                             ))}
+                            </div>
                             {filter && <Popup />}
                         </div>
                      ):
@@ -358,9 +427,12 @@ export default function Default() {
                         <div style={{width: "100%", overflow: "hidden", marginLeft: "-10px"}}>
                             <div className="search">
                                 <p style={{fontSize: "16px", fontWeight: "600"}}>Networks</p>
+                                <hr style={{width: "92%", backgroundColor:"grey"}}/>
                                 <div style={{display: "flex"}}>
                                     <input type="text" placeholder="Search Networks" />
-                                    <FilterIcon style={{marginTop: "7px"}} onClick={handleFilter}/>
+                                    {/* <FilterIcon style={{marginTop: "7px"}} onClick={handleFilter}/> */}
+                                    <img src={Filter} alt='FILTER' style={{width: "3.5%",height: "80%"}}></img>
+                                    <img src={Search} alt='SEARCH' style={{width: "3.5%",height: "80%",marginLeft: "2%"}}></img>
                                 </div>
                             </div>
                             <div className='horizontal-scroll'>
@@ -392,21 +464,22 @@ export default function Default() {
                                 <p>With BIT</p>
                                 </div>
                             </div>
+                            <div className='networks-card'>
                             {userNetworks.map(connection => (
                                 <div key={connection.person_id} >
-                                    <div className='card' onClick={()=> handleCard(connection.person_id)}>
+                                    <div className={`card ${view? 'show': ''}`} onClick={()=> handleCard(connection.person_id)}>
                                     <div className='profile-2'>
                                         <img src={`http://localhost:8000${connection.profile}`} alt="" />
                                     </div>
-                                    <div style={{ marginRight: '10px', marginTop: '10px', marginLeft: '10px' }}>
+                                    <div style={{ marginRight: '0px',marginTop: "3%", marginLeft: '10px',width: "9vw" }}>
                                         <p className='card-name'>{connection.fullname}</p>
-                                        <p style={{ color: '#245C9F', fontSize: '12px', fontWeight: '500', textDecoration: 'underline' }}>View Connections</p>
+                                        <p style={{ color: '#0352b3', marginTop: "2%", fontSize: '12px', fontWeight: '500', textDecoration: 'underline' }}>View Connections</p>
                                     </div>
                                     {!view ? (
                                         <div style={{ display: 'flex' }}>
                                         <hr className="custom-hr" color='#2867B2' />
-                                        <p style={{ maxWidth: "250px", marginLeft: "18px", fontSize: '13px', marginTop: '10px' }}>{connection.shortdescription}</p>
-                                        <div style={{ marginLeft: '30px', marginTop: '3%' }}>
+                                        <p style={{ width: "18vw", marginLeft: "18px", fontSize: '12px', marginTop: '10px',overflowY: "scroll",overflowY: "auto",height: "11vh",scrollbarWidth: 'none', }}>{connection.shortdescription}</p>
+                                        <div style={{ marginLeft: '20px', marginTop: '5%' }}>
                                             <div className='card-number'>
                                             <i className="fa-solid fa-phone"></i>
                                             <p>{connection.phonenumber}</p>
@@ -421,22 +494,30 @@ export default function Default() {
                                     </div>
                                 </div>
                                 ))}
+                                </div>
                             {filter && <Popup />}
                         </div>
                      )
                 }
+                </div> 
+                )
+                : (<ShowAddAccount/>) }
+            {/* </div> */}
             </div>
-            <div className={`right-handside ${view ? "show" : ""}`}>
-                {
-                    Connections ?
-                    (
-                        !view ?
-                        (
+            { !AddConnections ? (
+            <div className={`right-handside ${(view || viewconnection) ? "show" : (AddConnections ? 'addconnection' : '')}`}>
+            {
+              Connections ? (
+                (view || viewconnection || ExpertiseConnection) ? 
+                  (view ? ( (<MainFlow />) || !(<RankFlow/>) ) : 
+                    viewconnection ? (<RankFlow />) : 
+                    ExpertiseConnection ? (<ExpertiseChart/>) : "" ) : 
+                      (
                         <div style={{backgroundColor: "white", padding: "10px", height: "420px", width: "100%", overflow: "hidden"}}>
                             <div style={{display: "flex", width: "100%", gap: "10px"}}>
-                                <p style={{fontSize: "19px", fontWeight: "600"}}>My Schedule</p>
+                                <p style={{fontSize: "19px", fontWeight: "600",width: "8vw"}}>My Schedule</p>
                                 <div className='notify'>15</div>
-                                <img src={info} alt="" style={{display: "flex", justifyContent: "flex-end",marginLeft: "170px"}}/>
+                                <img src={info} alt="" style={{display: "flex", justifyContent: "flex-end",marginLeft: "40%"}}/>
                             </div>
                             <br />
                             <div style={{display: "flex", gap: "20px", marginBottom: "22px", paddingLeft: "15px"}}>
@@ -491,14 +572,13 @@ export default function Default() {
                             </div>
 
                         </div>
-                    ):(<MainFlow/>)
-                )
-                : (
-                    !view ?(
+                     )) : (
+                      !view ? (
+          
                         <div style={{backgroundColor: "white", padding: "10px", height: "450px" ,width: "100%" }}>
                             <div style={{display: "flex"}}>
                                 <p style={{fontSize: "19px", fontWeight: "600"}}>Scheduled Networks</p>
-                                <img src={info} alt="" style={{display: "flex", justifyContent: "flex-end",marginLeft: "150px"}}/>
+                                <img src={info} alt="" style={{display: "flex", justifyContent: "flex-end",marginLeft: "30%"}}/>
                             </div>
                             <br />
                             <div style={{display: "flex", gap: "20px", paddingLeft: "15px", marginBottom: "17px"}}>
@@ -507,7 +587,7 @@ export default function Default() {
                                     <div style={{display: "flex", gap: "10px"}}>
                                         <p style={{fontWeight: "600"}}>frenfgrenfgnregn</p>
                                     </div>
-                                    <p style={{maxWidth: "300px"}}>UI/UX DESIGNER wfiuenfie nwiefiewrn ewfniwe owei</p>
+                                    <p style={{width: "12vw",fontSize: "14px",marginTop: "1%"}}>UI/UX DESIGNER wfiuenfie nwiefiewrn ewfniwe owei</p>
                                     <div style={{display: "flex", gap: "10px"}}>
                                         <button className='completed'>View person</button>
                                     </div>
@@ -519,7 +599,7 @@ export default function Default() {
                                     <div style={{display: "flex", gap: "10px"}}>
                                         <p style={{fontWeight: "600"}}>frenfgrenfgnregn</p>
                                     </div>
-                                    <p style={{maxWidth: "300px"}}>UI/UX DESIGNER wfiuenfie nwiefiewrn ewfniwe owei</p>
+                                    <p style={{width: "12vw",fontSize: "14px",marginTop: "1%"}}>UI/UX DESIGNER wfiuenfie nwiefiewrn ewfniwe owei</p>
                                     <div style={{display: "flex", gap: "10px"}}>
                                         <button className='completed'>View person</button>
                                     </div>
@@ -531,7 +611,7 @@ export default function Default() {
                                     <div style={{display: "flex", gap: "10px"}}>
                                         <p style={{fontWeight: "600"}}>frenfgrenfgnregn</p>
                                     </div>
-                                    <p style={{maxWidth: "300px"}}>UI/UX DESIGNER wfiuenfie nwiefiewrn ewfniwe owei</p>
+                                    <p style={{width: "12vw",fontSize: "14px",marginTop: "1%"}}>UI/UX DESIGNER wfiuenfie nwiefiewrn ewfniwe owei</p>
                                     <div style={{display: "flex", gap: "10px"}}>
                                         <button className='completed'>View person</button>
                                     </div>
@@ -541,6 +621,8 @@ export default function Default() {
                     ):(<MainFlow/>))
                 }
             </div>
+            ) : ("")
+          }
             <Dialog id='popconnections' open={add} onClose={() => setAdd(false)}>
       <div>
         <button id='popaddconnections'>
@@ -562,7 +644,7 @@ export default function Default() {
         <div id='buttonContainer'>
           <button onClick={handleCheck} id='check'>Check for Availability</button>
           <button onClick={() => setAdd(false)} color="primary" id='discard'>Discard</button>
-          <button className="open" onClick={handleContinue} color="primary" id='continue' disabled={isButtonDisabled}>Continue</button>
+          <button className={`continue ${isButtonDisabled ? "disable" : ""}`} onClick={handleContinue} color="primary" disabled={isButtonDisabled} >Continue</button>
         </div>
       </div>
     </Dialog>

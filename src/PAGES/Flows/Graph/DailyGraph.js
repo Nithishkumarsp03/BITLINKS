@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactApexChart from 'react-apexcharts';
-
+import Diamond from "../../../Assets/Gem.svg";
 class ApexChartDailyGraph extends React.Component {
   constructor(props) {
     super(props);
@@ -49,6 +49,15 @@ class ApexChartDailyGraph extends React.Component {
     return (
       <div>
         <div id="chart">
+        <div className="diamond-points">
+                  <p>Total Points: </p>
+                  <div className="total-points-box">
+                    <img src={Diamond} className="diamond-img"></img>
+                    <button className="total-points">
+                      <p>500</p>
+                    </button>
+                  </div>
+                </div>
           <ReactApexChart options={this.state.options} series={this.state.series} type="line" height={350} />
         </div>
         <div id="html-dist"></div>

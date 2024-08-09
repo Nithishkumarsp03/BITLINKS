@@ -555,7 +555,7 @@ const Flowchart = () => {
           label={
             // <div className="node">
             <a1 onClick={() => setPerson(true)} className="a1-flow-person" id="a1-flow-person css-to7de5-person">
-              <span className="topics-flowchart">
+              <span className="topics-flowchart1">
                 <ChangingProgressProvider value={progress1}>
                   {(value) => (
                     <CircularProgressbarWithChildren
@@ -630,7 +630,7 @@ const Flowchart = () => {
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
                                   width={18}
-                                  height={27}
+                                  height={20}
                                   color={"#122E50"}
                                   fill={"none"}>
                                   <path

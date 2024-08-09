@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Flows.css";
 import Flowchart from "../Flowchart/flowchart";
 import History from "../History/History";
-import Diamond from "../../../Assets/Gem.svg";
 import ApexChartDailyGraph from "../Graph/DailyGraph";
 import ApexChartMonthlyGraph from "../Graph/MonthlyGraph";
 import ApexChartWeeklyGraph from "../Graph/WeeklyGraph";
@@ -28,15 +27,7 @@ export default function MainFlow({  }) {
           {activeFlow === "graph" && (
             <div>
               <div className="graph-head-buttons">
-                <div className="diamond-points">
-                  <p>Total Points: </p>
-                  <div className="total-points-box">
-                    <img src={Diamond} className="diamond-img"></img>
-                    <button className="total-points">
-                      <p>500</p>
-                    </button>
-                  </div>
-                </div>
+                
 
                 <div className="graph-buttons">
                   <button
@@ -86,9 +77,7 @@ export default function MainFlow({  }) {
           <div className={`history-add ${activeFlow === "history" ? "expanded" : ""}`}>
             <p className="flow-titles">History</p>
             {/* <div className={`history-add-main ${activeFlow === "history" ? "expanded" : ""}`}> */}
-            <button className="history-add-button">
-              Add<i class="fa-solid fa-square-plus"></i>
-            </button></div>
+            </div>
           {/* </div> */}
           {activeFlow === "history" && <History />}
         </div>

@@ -216,6 +216,34 @@ app.post('/api/userConnections', (req, res) => {
 });
 
 
+// Endpoint to add history
+app.post('/api/addhistory', (req, res) => {
+  const {  type, note, points, created_date,scheduled_date  } = req.body;
+
+  if (!type  || points === undefined) {
+    return res.status(400).send('Invalid data');
+  }
+
+  const query = 'INSERT INTO history ( type, note, points, created_date,scheduled_date ) VALUES (?, ?, ?, ?, ?)';
+  pool.query(query, [ type, note, points, created_date,scheduled_date ], (err, result) => {
+    if (err) {
+      console.error('Error inserting data:', err);
+      return res.status(500).send('Server error');
+    }
+    res.send('History added successfully');
+  });
+});
+
+app.get('/api/history', (req, res) => {
+  const query = 'SELECT type, note, points, created_date,scheduled_date FROM history';
+  pool.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).send('Server error');
+    }
+    res.json(results);
+  });
+});
 
 
 

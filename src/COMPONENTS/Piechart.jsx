@@ -27,6 +27,7 @@ export default function PieAnimation() {
   };
 
   return (
+    <div style={{backgroundColor: "white",height: "35vh",paddingTop: "3%",borderRadius: "5%"}}>
     <Box
       sx={{
         width: "100%",
@@ -155,6 +156,7 @@ export default function PieAnimation() {
         ))}
       </Box>
     </Box>
+    </div>
   );
 }
   
