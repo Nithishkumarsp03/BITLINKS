@@ -19,7 +19,7 @@ router.get("/domaindata", authenticate, (req, res) => {
     });
   });
 });
-module.exports = router; 
+module.exports = router;     
 
 /**
  * @swagger
