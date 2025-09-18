@@ -105,7 +105,7 @@ const AddressDropdown = ({ value, onChange, onTextChange = () => {} }) => {
         <div style={{display: "flex"}}>
         <FormControl fullWidth>
             <InputLabel id="address-select-label" style={{ display: 'none' }}>Address</InputLabel>
-            <Select
+            <Select 
                 placeholder="Select Location"
                 labelId="address-select-label"
                 value={selectedOption}
